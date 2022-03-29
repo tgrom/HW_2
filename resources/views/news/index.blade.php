@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title_main') Новости в категории @endsection
 @section('content')
     @forelse($newsList as $news)
     <div class="col">
