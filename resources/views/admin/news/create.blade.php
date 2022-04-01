@@ -27,9 +27,9 @@
             <div class="form-group">
                 <label for="status">Статус</label>
                 <select class="form-control" name="status" id="status">
-                    <option @if(old('status') === 'Draft') selected @endif>Draft</option>
-                    <option @if(old('status') === 'Activ') selected @endif>Activ</option>
-                    <option @if(old('status') === 'Block') selected @endif>Block</option>
+                    <option @if(old('status') === 'Dr') selected @endif>Dr</option>
+                    <option @if(old('status') === 'Act') selected @endif>Act</option>
+                    <option @if(old('status') === 'Bl') selected @endif>Bl</option>
                 </select>
             </div><br>
             <div class="form-group">

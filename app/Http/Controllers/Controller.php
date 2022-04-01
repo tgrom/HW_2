@@ -51,8 +51,8 @@ class Controller extends BaseController
                 'id' => $id,
                 'title' => $faker->jobTitle(),
                 'number' => $faker->randomNumber(2),
-
-                'status' => $status[mt_rand(0, 1)],
+                'description' => $faker->text(100),
+                'status' => $status[mt_rand(0, 1)]
 
             ];
         }

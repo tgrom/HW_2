@@ -9,4 +9,38 @@
             </div>
         </div>
     </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+
+                <th>#ID</th>
+                <th>Название</th>
+
+                <th>Описание</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse($news as $newsList)
+                <tr>
+
+                    <td>{{ $newsList->id }}</td>
+                    <td>{{ $newsList->title }}</td>
+
+                    <td>{{ $newsList->description }}</td>
+                    <td><a href="{{ route('admin.news.edit',['news' => $newsList->id]) }}">Редактировать</a>
+                        <a href="javascript:" style="color: red;">Удалить</a></td>
+
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4">Записей нет</td>
+                </tr>
+            @endforelse
+            </tbody>
+        </table>
+    </div>
+
 @endsection
