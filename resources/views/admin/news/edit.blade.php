@@ -15,7 +15,8 @@
             @method('put')
             <div class="form-group">
                 <label for="title">Название</label>
-                <input type="text" class="form-control" name="title" id="title" value="{{ $news->title }}">
+                <input type="text" class="form-control alert-danger" name="title" id="title" value="{{ $news->title }}">
+                @error('title') <strong style="color: red">{{ $message }}</strong> @enderror
             </div><br>
 
             <div class="form-group">
@@ -28,8 +29,8 @@
                 </select>
             </div><br>
             <div class="form-group">
-                <label for="autor">Автор</label>
-                <input type="text" class="form-control" name="autor" id="autor" value="{{ $news->autor }}">
+                <label for="author">Автор</label>
+                <input type="text" class="form-control" name="author" id="author" value="{{ $news->author }}">
             </div><br>
             <div class="form-group">
                 <label for="img">Изображение</label>

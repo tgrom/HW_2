@@ -36,7 +36,7 @@
                     <td>{{ $newsList->status }}</td>
                     <td>@if($newsList->updated_at) {{ $newsList->updated_at->format('d-m-Y H:i') }}@endif</td>
                     <td><a href="{{ route('admin.news.edit',['news' => $newsList->id]) }}">Редактировать</a>
-                        <a href="javascript:" style="color: red;">Удалить</a></td>
+                        <a href="javascript:;" class="delete" rel="{{$newsList->id}}" style="color: red">Удалить</a></td>
 
                 </tr>
             @empty
@@ -51,3 +51,33 @@
     </div>
 
 @endsection
+
+@push('js')
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const el = document.querySelectorAll(".delete");
+    el.forEach(function(element, index) {
+    element.addEventListener("click", function () {
+    const id = this.getAttribute("rel");
+    if(confirm('Вы уверенны, что хотите удалить данную запись')) {
+    send('/admin/news/${id}').then(() => {
+    alert("Запись удалена");
+    location.reload()
+    });
+    };
+    });
+    });
+    });
+    async function send(url) {
+    let response = await fetch(url,
+    {
+    method: 'DELETE',
+    headers: {
+    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
+    });
+    let result = await response.json();
+    return result.ok;
+    }
+    ;
+@endpush
