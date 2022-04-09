@@ -9,21 +9,32 @@
     </div>
 
     <div class="raw">
-        @if($errors->any())
-            @foreach($errors->all() as $error)
-                <x-alert type="danger" :message="$error"></x-alert>
-            @endforeach
-        @endif
+        @include('inc.messages')
         <form method="post" action="{{route('admin.news.store')}}">
             @csrf
             <div class="form-group">
                 <label for="title">Название</label>
                 <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
             </div><br>
+
+            <div class="form-group">
+                <label for="category_id">Категория</label>
+                <select name="category_id" id="category_id" class="form-control">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}"
+                        @if($category->id === old('category_id')) selected @endif>{{$category->title}}</option>
+                    @endforeach
+                </select>
+            </div><br>
             <div class="form-group">
                 <label for="autor">Автор</label>
                 <input type="text" class="form-control" name="autor" id="autor" value="{{ old('autor') }}">
             </div><br>
+            <div class="form-group">
+                <label for="img">Изображение</label>
+                <input type="file" class="form-control" name="img" id="img">
+            </div><br>
+
             <div class="form-group">
                 <label for="status">Статус</label>
                 <select class="form-control" name="status" id="status">

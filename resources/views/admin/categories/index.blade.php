@@ -10,11 +10,13 @@
         </div>
     </div>
     <div class="table-responsive">
+        @include('inc.messages')
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>#ID</th>
                     <th>Заголовок</th>
+                    <th>Количество новостей</th>
                     <th>Описание</th>
                     <th>Действия</th>
                 </tr>
@@ -24,6 +26,7 @@
                 <tr>
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->title }}</td>
+                    <td>{{ $category->news->count() }}</td>
                     <td>{{ $category->description }}</td>
                     <td><a href="{{ route('admin.categories.edit',['category' => $category->id]) }}">Редактировать</a>
                     <a href="javascript:" style="color: red;">Удалить</a></td>
@@ -35,6 +38,8 @@
             @endforelse
             </tbody>
         </table>
+
     </div>
+    <div class="pagination" style="margin-left: 420px"> {{ $categories->links() }}</div >
 
 @endsection

@@ -40,3 +40,12 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.'], function () {
 
     Route::resource('news', AdminNewsController::class);
 });
+
+
+Route::get('collections', function () {
+$array = ["A", "B", "C", "D", "E", "F"];
+$collection = collect($array);
+dd($collection->map(function ($item) {
+    return "Буква: ".$item;
+}));
+});

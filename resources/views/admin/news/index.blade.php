@@ -11,14 +11,17 @@
     </div>
 
     <div class="table-responsive">
+        @include('inc.messages')
         <table class="table table-bordered">
             <thead>
             <tr>
 
                 <th>#ID</th>
                 <th>Название</th>
-
+                <th>Категория</th>
                 <th>Описание</th>
+                <th>Статус</th>
+                <th>Последнее изменение</th>
                 <th>Действия</th>
             </tr>
             </thead>
@@ -28,8 +31,10 @@
 
                     <td>{{ $newsList->id }}</td>
                     <td>{{ $newsList->title }}</td>
-
+                    <td>{{ $newsList->category->title }}</td>
                     <td>{{ $newsList->description }}</td>
+                    <td>{{ $newsList->status }}</td>
+                    <td>@if($newsList->updated_at) {{ $newsList->updated_at->format('d-m-Y H:i') }}@endif</td>
                     <td><a href="{{ route('admin.news.edit',['news' => $newsList->id]) }}">Редактировать</a>
                         <a href="javascript:" style="color: red;">Удалить</a></td>
 
@@ -41,6 +46,8 @@
             @endforelse
             </tbody>
         </table>
+        <div class="pagination" style="margin-left: 420px"> {{ $news->links() }}</div >
+
     </div>
 
 @endsection
