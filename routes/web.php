@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\NewsControllers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Category;
 use App\Http\Controllers\Admin\IndexController as AdminController;
@@ -31,7 +32,19 @@ where('id', '\d+')
 
 Route::get('category', [Category::class, 'index']);
 
-Route::group(['prefix' => 'admin', 'as'=>'admin.'], function () {
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'account', 'as' => 'account.'], function () {
+        Route::get('/', );
+        Route::get('logout', function () {
+            Auth::logout();
+            return redirect()->route('login');
+        })->name('logout');
+    });
+
+});
+
+Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => 'is_admin'], function () {
     Route::get('/', AdminController::class)->name('index');
 
 
@@ -49,3 +62,11 @@ dd($collection->map(function ($item) {
     return "Буква: ".$item;
 }));
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
