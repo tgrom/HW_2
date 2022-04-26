@@ -1,5 +1,8 @@
 <?php
 use App\Http\Controllers\NewsControllers;
+use App\Http\Controllers\Admin\ParserController;
+use App\Http\Controllers\Account\IndexCController as AccountController;
+use App\Http\Controllers\Auth\SocialController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Category;
@@ -35,24 +38,28 @@ Route::get('category', [Category::class, 'index']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'account', 'as' => 'account.'], function () {
-        Route::get('/', );
+        Route::get('/', AccountController::class)->name('index');
         Route::get('logout', function () {
             Auth::logout();
             return redirect()->route('login');
         })->name('logout');
     });
 
+    Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => 'is_admin'], function () {
+        Route::get('/', AdminController::class)->name('index');
+
+
+
+        Route::resource('categories', AdminCategoryController::class);
+
+        Route::resource('news', AdminNewsController::class);
+
+        Route::get('parser', ParserController::class)->name('parser');
+    });
+
 });
 
-Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => 'is_admin'], function () {
-    Route::get('/', AdminController::class)->name('index');
 
-
-
-    Route::resource('categories', AdminCategoryController::class);
-
-    Route::resource('news', AdminNewsController::class);
-});
 
 
 Route::get('collections', function () {
@@ -68,5 +75,15 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
+
+//Вход через соц сети
+Route::group(['middlewsre' => 'guest'], function () {
+    Route::get('/auth/{network}/redirect', [SocialController::class, 'index'])
+        ->where('network', '\w+')
+        ->name('auth.redirect');
+    Route::get('/auth/{network}/callback', [SocialController::class, 'callback'])
+        ->where('network', '\w+')
+        ->name('auth.callback');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
