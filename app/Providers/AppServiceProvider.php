@@ -6,6 +6,7 @@ use App\Contracts\Social;
 use App\Serveses\ParserServes;
 use App\Contracts\Parser;
 use App\Serveses\SocialServes;
+use App\Serveses\UpliadService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(Parser::class, ParserServes::class);
         $this->app->bind(Social::class, SocialServes::class);
+        $this->app->bind(UpliadService::class);
     }
 
     /**

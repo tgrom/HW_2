@@ -109,6 +109,14 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        try {
+            $category->delete();
+
+            return response()->json(['status'=>'ok']);
+
+        }catch (\Exception $e) {
+            Log::error("News was't delete" );
+            return response()->json(['status'=>'error'], 400);
+        }
     }
 }

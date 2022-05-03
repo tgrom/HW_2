@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Serveses;
 
+use Illuminate\Support\Facades\Storage;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use App\Contracts\Parser;
 
@@ -16,10 +17,17 @@ class ParserServes implements Parser
         return $this;
     }
 
-    public function getNews(): array
+    //public function getNews(): array
+
+    // тут тоже переименовыем getNews в saveNews
+
+    public function saveNews():void
     {
         $xml = XmlParser::load($this->url);
-        return $xml->parse([
+
+        //вместо  return $xml->parse возвращаем массив
+
+        $data =  $xml->parse([
             'title' => [
                 'uses' => 'channel.title'
             ],
@@ -36,5 +44,10 @@ class ParserServes implements Parser
                 'uses' => 'channel.item[title,link,guid,description,pubDate]'
             ]
         ]);
+        $json = json_encode($data);
+        $e = explode("/", $this->url);
+        $fileName = end($e);
+
+        Storage::append('news/' . $fileName, $json);
     }
 }

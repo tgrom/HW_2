@@ -49,5 +49,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
 <script src="{{ asset('js/dashboard.js') }}"></script>
+@stack('js')
 </body>
 </html>

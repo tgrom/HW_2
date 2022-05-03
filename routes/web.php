@@ -29,8 +29,8 @@ Route::get('/', function () {
 Route::get('/news', [NewsControllers::class, 'index'])
 ->name('news');
 
-Route::get('news/{id}', [NewsControllers::class, 'show'])->
-where('id', '\d+')
+Route::get('news/{news}', [NewsControllers::class, 'show'])->
+where('news', '\d+')
 ->name('news.show');
 
 Route::get('category', [Category::class, 'index']);

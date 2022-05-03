@@ -7,6 +7,7 @@ use App\Http\Requests\News\CreateRequest;
 use App\Http\Requests\News\EditRequest;
 use App\Models\Category;
 use App\Models\News;
+use App\Serveses\UpliadService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -94,9 +95,15 @@ class NewsController extends Controller
      */
     public function update(EditRequest $request, News $news)
     {
+        $valided = $request->validated();
+        if($request->hasFile('img')) {
+            $service = app(UpliadService::class);
+            $valided['img'] = $service->saveFile($request->file('img'));
+            //dd($request->file('img'));
+        }
 
 
-        $status = $news->fill($request->validated())->save();
+        $status = $news->fill($valided)->save();
         if($status) {
             return redirect()->route('admin.news.index')
                 ->with('success', trans('messages.admin.news.update.success'));

@@ -54,30 +54,36 @@
 
 @push('js')
 
-    document.addEventListener("DOMContentLoaded", function () {
-    const el = document.querySelectorAll(".delete");
-    el.forEach(function(element, index) {
-    element.addEventListener("click", function () {
-    const id = this.getAttribute("rel");
-    if(confirm('Вы уверенны, что хотите удалить данную запись')) {
-    send('/admin/news/${id}').then(() => {
-    alert("Запись удалена");
-    location.reload()
-    });
-    };
-    });
-    });
-    });
-    async function send(url) {
-    let response = await fetch(url,
-    {
-    method: 'DELETE',
-    headers: {
-    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    }
-    });
-    let result = await response.json();
-    return result.ok;
-    }
-    ;
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const el = document.querySelectorAll(".delete");
+            el.forEach(function(element, index) {
+                element.addEventListener("click", function() {
+                    const id = this.getAttribute("rel");
+                    if(confirm(`Подтвердите удаление записи с #ID ${id} ?
+                    Данную запись НЕЛЬЗЯ восстановить`)) {
+
+                        //send id on backend
+                        send(`/admin/news/${id}`).then(() => {
+                            alert("Запись была удалена");
+                            location.reload();
+                        });
+                    }
+                });
+            });
+        });
+        async function send(url) {
+            let response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                        .getAttribute('content')
+                }
+            });
+            let result = await response.json();
+            return result.ok;
+        }
+    </script>
 @endpush
